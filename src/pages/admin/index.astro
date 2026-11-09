@@ -1,0 +1,21 @@
+---
+---
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Administration · FC Vacresse</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;background:#f3f3f4;color:#0e0e10}
+header{background:#0e0e10;color:#fff;padding:12px 20px;display:flex;gap:14px;align-items:center;border-bottom:3px solid #e10613}header b{font-size:1.1rem;letter-spacing:.06em}header span{margin-left:auto;opacity:.7}
+button{font:inherit;cursor:pointer;border:1px solid #c9c9ce;background:#fff;border-radius:6px;padding:8px 14px}button.pri,#add,#pub{background:#e10613;color:#fff;border-color:#e10613;font-weight:700}
+#login{max-width:380px;margin:80px auto;background:#fff;padding:28px;border-top:4px solid #e10613}label{display:block;margin:0 0 14px;font-weight:600}input,select,textarea{display:block;width:100%;margin-top:4px;padding:10px;border:1px solid #c9c9ce;border-radius:6px;font:inherit}input[type=checkbox]{width:auto}
+main{max-width:1100px;margin:0 auto;padding:18px}#tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}#tabs button.on{background:#0e0e10;color:#fff}
+.tool{display:flex;gap:10px;margin-bottom:12px;align-items:center}.tool select{width:auto;margin:0}table{width:100%;border-collapse:collapse;background:#fff}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #e3e3e6}th{background:#fafafa;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}td.act{text-align:right;white-space:nowrap}.del{color:#b00020}
+dialog{border:0;border-radius:10px;padding:24px;width:min(560px,94vw);max-height:92vh;overflow:auto}dialog::backdrop{background:rgba(0,0,0,.5)}.bar2{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}.thumb{width:90px;height:60px;object-fit:cover;display:block;margin:6px 0}
+#msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:8px;color:#fff;z-index:9}#msg.ok{background:#0a7a3d}#msg.err{background:#b00020}#lerr{color:#b00020}
+</style></head>
+<body>
+<header><b>FC VACRESSE · ADMINISTRATION</b><span id="who"></span><button id="pub" hidden>Mettre à jour le site</button><button id="out">Déconnexion</button></header>
+<section id="login" hidden><h2>Connexion</h2><form id="lf"><label>E-mail<input id="em" type="email" required></label><label>Mot de passe<input id="pw" type="password" required></label><button class="pri" type="submit">Se connecter</button><p id="lerr"></p></form></section>
+<main id="app" hidden><div id="tabs"></div><div class="tool"><button id="add">+ Ajouter</button><select id="filter" hidden></select></div><table><thead><tr id="head"></tr></thead><tbody id="rows"></tbody></table></main>
+<dialog id="dlg"></dialog><div id="msg" hidden></div>
+<script>import '../../scripts/admin.js';</script>
+</body></html>

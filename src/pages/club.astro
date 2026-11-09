@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { club, people, clubPhotos } from '../lib/data.js';
+const g = (k) => people.filter((p) => p.grp === k);
+const map = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(club.address);
+const ini = (n) => n.replace(/[\[\]]/g, '').split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+const groups = [['Direction', [...g('president'), ...g('coordinateur')]], ['Comité', g('comite')], ['Coachs', g('coach')]];
+---
+<Base title="Le club" description="Le comité, les coachs, les installations du FC Vacresse.">
+<div class="wrap">
+<div class="sh in"><small>Le club</small><h1>Les gens du club</h1></div>
+{groups.map(([t, list]) => list.length > 0 && <section class="pg"><h2 class="rv">{t}</h2><div class="pgrid">{list.map((p,i) => <article class="pc rv" style={`--d:${(i%4)*.07}s`}>
+{p.photo ? <img src={p.photo} alt={p.name} loading="lazy" /> : <div class="ph">{ini(p.name)}</div>}
+<h3>{p.name}</h3><span class="lbl">{p.role}</span>{p.phone && <a class="tel" href={`tel:${p.phone.replace(/\s/g,'')}`}>{p.phone}</a>}</article>)}</div></section>)}
+<section class="pg"><h2 class="rv">Nos installations</h2>
+<div class="cc addr rv" style="max-width:520px"><small>✶ Adresse</small><p style="font-size:1.2rem;font-weight:700;margin:6px 0 14px">{club.address}</p><a class="btn" href={map} target="_blank" rel="noopener">Itinéraire</a></div>
+{clubPhotos.length > 0 ? <div class="photos">{clubPhotos.map((p,i) => <figure class="rv" style={`--d:${(i%3)*.08}s`}><img src={p.img} alt={p.title} loading="lazy" /><figcaption>{p.category && <span class="lbl">{p.category}</span>} {p.title}</figcaption></figure>)}</div> : <p class="muted" style="margin-top:20px">Photos de la buvette et des installations à venir.</p>}
+</section>
+</div>
+</Base>

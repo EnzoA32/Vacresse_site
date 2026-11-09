@@ -1,0 +1,6 @@
+---
+import Base from '../../layouts/Base.astro';
+import { teams } from '../../lib/data.js';
+---
+<Base title="Équipes" description="Les 15 équipes du FC Vacresse."><h1>Équipes</h1><div class="wrap">
+<div class="grid">{teams.map(t => <a class="tile" href={`/equipes/${t.slug}`}>{t.name}</a>)}</div></div></Base>

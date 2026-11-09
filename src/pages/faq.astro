@@ -1,0 +1,6 @@
+---
+import Base from '../layouts/Base.astro';
+import { faq } from '../lib/data.js';
+---
+<Base title="FAQ" description="Questions fréquentes sur le FC Vacresse."><h1>FAQ</h1><div class="wrap">
+{faq.map(f => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div></Base>

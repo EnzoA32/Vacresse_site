@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { clubEvents, day, month } from '../lib/data.js';
+const today = new Date().toISOString().slice(0, 10);
+const up = clubEvents.filter((e) => e.date >= today);
+const past = clubEvents.filter((e) => e.date < today).reverse().slice(0, 12);
+---
+<Base title="Événements" description="Soupers, tournois et communications du FC Vacresse.">
+<div class="wrap">
+<div class="sh in"><small>Événements</small><h1>À venir au club</h1></div>
+<div class="egrid">{up.map((e,i) => <article class="evc rv" style={`--d:${(i%4)*.08}s`}>
+<div class="evc-top"><h3>{e.title}</h3><div class="evc-d"><b>{day(e.date)}</b><span>{month(e.date)}</span></div><p class="evc-m">{[e.time, e.place].filter(Boolean).join(' · ')}</p>{e.description && <p class="evc-p">{e.description}</p>}</div>
+<div class="evc-img" style={e.image ? `background-image:url(${e.image})` : ''}>{e.link ? <a class="evc-b" href={e.link} target="_blank" rel="noopener">Plus d'infos</a> : <span class="evc-b">FC Vacresse</span>}</div></article>)}
+{!up.length && <p class="muted">Aucun événement annoncé pour le moment.</p>}</div>
+{past.length > 0 && <><h2 style="margin-top:60px" class="rv">Événements passés</h2><div class="egrid past">{past.map((e) => <article class="evc"><div class="evc-top"><h3>{e.title}</h3><div class="evc-d"><b>{day(e.date)}</b><span>{month(e.date)}</span></div></div><div class="evc-img" style={e.image ? `background-image:url(${e.image})` : ''}></div></article>)}</div></>}
+</div>
+</Base>

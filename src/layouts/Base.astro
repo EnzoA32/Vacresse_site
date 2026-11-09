@@ -1,0 +1,19 @@
+---
+import { club, nav } from '../lib/data.js';
+const { title, description = `${club.full} : actualités, équipes, matchs et événements.` } = Astro.props;
+const path = Astro.url.pathname;
+const on = () => '';
+---
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title} · {club.name}</title><meta name="description" content={description}>
+<meta property="og:title" content={`${title} · ${club.name}`}><meta property="og:description" content={description}><link rel="icon" href="/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script is:inline>document.documentElement.classList.add('js')</script><link rel="stylesheet" href="/style.css"></head>
+<body><header class="bar"><div class="in"><a class="brand" href="/"><img src="/logo.jpg" alt="Logo FC Vacresse">FC VACRESSE</a>
+<nav>{nav.map(([h,l]) => <a href={h}>{l}</a>)}<a class="shop" href={club.shop} target="_blank" rel="noopener">Boutique</a></nav>
+<details class="burger" style="background:none;border:0;padding:0"><summary>Menu</summary><nav>{nav.map(([h,l]) => <a href={h}>{l}</a>)}<a class="shop" href={club.shop} target="_blank" rel="noopener">Boutique</a></nav></details></div></header>
+<slot />
+<footer><div class="wm" aria-hidden="true">FC VACRESSE</div><div class="wrap"><div><b style="color:#fff">{club.full}</b><br>{club.address}<br>{club.email}</div>
+<div>{nav.map(([h,l]) => <a href={h}>{l}</a>)}</div><div><a href="/matchs">Matchs</a><a href="/resultats">Résultats</a><a href="/faq">FAQ</a><a href={club.rbfa}>Classements RBFA</a><a href={club.shop}>Boutique</a></div></div></footer></body></html>

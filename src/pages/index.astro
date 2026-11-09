@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import { club, events, clubEvents, teams, slides, sponsors, teamName, fmt, day, month } from '../lib/data.js';
+const now = Date.now();
+const futur = events.filter(e => new Date(e.date).getTime() >= now).sort((a,b) => a.date.localeCompare(b.date));
+const items = teams.map(t => { const m = futur.find(e => e.team === t.slug && e.type === 'match');
+  return { slug: t.slug, name: t.name, title: m ? m.title : 'Prochain match à venir', date: m ? fmt(m.date) : 'Date à confirmer', place: m ? m.place : '', iso: m ? m.date : '' }; })
+  .sort((a,b) => (a.iso ? 0 : 1) - (b.iso ? 0 : 1) || a.iso.localeCompare(b.iso));
+const today = new Date().toISOString().slice(0, 10);
+const evs = [...clubEvents.filter(e => e.date >= today), ...clubEvents.filter(e => e.date < today).reverse()].slice(0, 3);
+const f0 = items[0];
+const last = events.filter(e => e.score)[0];
+const short = (d) => new Date(d).toLocaleDateString('fr-BE',{day:'numeric',month:'short',timeZone:'Europe/Brussels'});
+const ghost = Array(6).fill('FC VACRESSE');
+const tick = '✶ FC VACRESSE ✶ ROYAL FOOTBALL CLUB ✶ SAISON ' + club.season + ' ';
+---
+<Base title="Accueil">
+<section id="accueil" class="sl" role="region" aria-roledescription="carousel" aria-label="À la une">
+{slides.map((x,i) => <div class={`sl-i${i===0?' on':''}`} aria-hidden={i!==0}><img src={x.img} alt="" loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':'auto'}><div class="sl-t"><span class="kicker">Saison {club.season}</span><h1>{x.title}</h1><p>{x.text}</p><a class="btn" href={x.link}>{x.cta}</a></div></div>)}
+<div class="vert" aria-hidden="true">FC VACRESSE ✶ SAISON {club.season}</div>
+<div class="sl-c"><button type="button" id="sp" aria-label="Précédent">‹</button><button type="button" id="sn" aria-label="Suivant">›</button><button type="button" id="sx" aria-label="Mettre en pause">❚❚</button>{slides.map((x,i) => <button type="button" class={`sl-d${i===0?' on':''}`} aria-label={`Diapositive ${i+1}`}></button>)}</div>
+<a class="scroll" href="#matchs" aria-label="Descendre">↓</a></section>
+<div class="tick" aria-hidden="true"><div class="tr">{[1,2,3,4].map(() => <span>{tick.repeat(4)}</span>)}</div></div>
+
+<section id="matchs" class="sec"><div class="wrap">
+<div class="sh rv"><small>Matchday</small><h2>Le prochain<br>rendez-vous</h2><p style="margin:18px 0 0"><a class="btn ghost" style="margin:0" href="/matchs">Tous les matchs</a></p></div>
+<div class="mgrid">
+<div class="tabs rv" id="tabs">{items.map((t,i) => <button type="button" class={i===0?'on':''} data-i={i}><b>{t.name}</b><small>{t.iso ? short(t.iso) : 'À venir'}</small></button>)}</div>
+<a class="ft gr rv" id="ft" href={`/equipes/${f0.slug}`}><div class="ghost" aria-hidden="true">{ghost.map(g => <span>{g}</span>)}</div><div class="ft-in">
+<span class="lbl" id="ftn">{f0.name}</span>
+<div class="vs2"><span class="logo"><img src="/logo.jpg" alt="FC Vacresse"></span><b id="ftt">{f0.title}</b><span class="logo">?</span></div>
+<div class="ft-d" id="ftd">{f0.date}</div><div id="ftp">{f0.place}</div>
+<div class="cd" id="cd"><div><b>--</b><span>Jours</span></div><div><b>--</b><span>Heures</span></div><div><b>--</b><span>Min</span></div><div><b>--</b><span>Sec</span></div></div>
+<span class="btn">Voir l'équipe</span></div></a>
+</div>
+<script type="application/json" id="md" set:html={JSON.stringify(items)}></script>
+</div></section>
+
+<section id="annonces" class="sec paper gr"><div class="wrap">
+<div class="sh rv"><small>Le club</small><h2>Événements &amp;<br>communication</h2></div>
+<div class="ann">{evs.map((e,i) => <a class={`n rv${i===0?' bigc':''}`} style={`--d:${i*.12}s`} href="/evenements"><img src={e.image || '/stade.jpg'} alt="" loading="lazy"><span class="lbl">{day(e.date)} {month(e.date)}{e.time ? ` · ${e.time}` : ''}</span><h3>{e.title}</h3><span class="more">Voir les événements</span></a>)}</div>
+</div></section>
+
+<section id="sponsors" class="sec burg gr"><div class="wrap">
+<div class="sh rv"><small>Partenaires</small><h2>Ils font vivre<br>le club</h2></div></div>
+<div class="mq rv"><div class="tr">{[...sponsors,...sponsors].map(x => <div class="sp">{x.img ? <img src={x.img} alt={x.name} loading="lazy"> : x.name}</div>)}</div></div>
+<div class="wrap" style="padding-top:34px"><a class="btn inv" href="/contact">Devenir partenaire</a></div></section>
+
+<section class="sec"><div class="wrap">
+<div class="sh rv"><small>Explorer</small><h2>Tout le club,<br>en un coup d'œil</h2></div>
+<div class="bento">
+<a class="bt b1 gr rv" href="/equipes"><div class="ghost" aria-hidden="true">{ghost.map(g => <span>{g}</span>)}</div><span class="arr">↗</span><small>✶ 01</small><div><b class="big">{teams.length}</b><h3>Nos équipes</h3><p class="chips">{teams.slice(0,8).map(t => <i>{t.name}</i>)}<i>+</i></p></div></a>
+<a class="bt b2 paper gr rv" style="--d:.08s" href="/evenements"><span class="arr">↗</span><small>✶ 02</small><h3>Événements</h3><div class="mini">{evs.map(e => <p><b>{day(e.date)} {month(e.date)}</b> {e.title}</p>)}</div></a>
+<a class="bt b3 burg gr rv" style="--d:.16s" href="/matchs"><span class="arr">↗</span><small>✶ 03</small><h3>Matchs</h3>{last ? <p class="sc">{last.score}<em>{teamName(last.team)}</em></p> : <p>Tous les prochains matchs de toutes les catégories.</p>}</a>
+<a class="bt b4 rv" style="--d:.24s;background-image:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.8)),url(/stade.jpg)" href="/club"><span class="arr">↗</span><small>✶ 04</small><h3>Le club</h3></a>
+<a class="bt b5 red gr rv" href="/contact"><div class="ghost" aria-hidden="true">{ghost.map(g => <span>{g}</span>)}</div><span class="arr">↗</span><small>✶ 05</small><h3>Rejoignez<br>le club</h3><span class="btn inv">Nous contacter</span></a>
+<a class="bt b6 paper gr rv" style="--d:.08s" href={club.shop} target="_blank" rel="noopener"><span class="arr">↗</span><small>✶ 06</small><h3>Boutique</h3><p>La boutique officielle du club.</p></a>
+<a class="bt b7 burg rv" style="--d:.16s" href={club.rbfa} target="_blank" rel="noopener"><span class="arr">↗</span><small>✶ 07</small><h3>Classements RBFA</h3><p>Les données officielles.</p></a>
+</div></div></section>
+
+<script is:inline>
+(()=>{const q=s=>document.querySelector(s),I=JSON.parse(q('#md').textContent);let k=0,hold=false;
+const ft=q('#ft'),B=q('#cd').querySelectorAll('b'),p2=n=>String(n).padStart(2,'0'),C=q('#tabs'),tabs=[...C.querySelectorAll('button')];
+const tick=()=>{const it=I[k];if(!it.iso){q('#cd').style.visibility='hidden';return}q('#cd').style.visibility='visible';const s=Math.max(0,Math.floor((new Date(it.iso)-Date.now())/1e3));[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60].forEach((v,i)=>B[i].textContent=p2(v))};
+const set=n=>{k=(n+I.length)%I.length;const it=I[k];ft.classList.remove('sw');void ft.offsetWidth;ft.classList.add('sw');ft.href='/equipes/'+it.slug;q('#ftn').textContent=it.name;q('#ftt').textContent=it.title;q('#ftd').textContent=it.date;q('#ftp').textContent=it.place;tabs.forEach((b,j)=>b.classList.toggle('on',j===k));const b=tabs[k];C.scrollTo({top:b.offsetTop-C.clientHeight/2+b.clientHeight/2,left:b.offsetLeft-C.clientWidth/2+b.clientWidth/2,behavior:'smooth'});tick()};
+tabs.forEach((b,j)=>b.onclick=()=>{hold=true;set(j)});ft.onmouseenter=C.onmouseenter=()=>hold=true;ft.onmouseleave=C.onmouseleave=()=>hold=false;
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setInterval(()=>{if(!hold&&I.length>1)set(k+1)},7000);setInterval(tick,1e3);tick();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const s=[...document.querySelectorAll('.sl-i')],d=[...document.querySelectorAll('.sl-d')],x=q('#sx');let i=0,t,off=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const show=n=>{i=(n+s.length)%s.length;s.forEach((e,j)=>{e.classList.toggle('on',j===i);e.setAttribute('aria-hidden',j!==i)});d.forEach((e,j)=>e.classList.toggle('on',j===i))};
+const lab=()=>{x.textContent=off?'▶':'❚❚';x.setAttribute('aria-label',off?'Lancer le défilement':'Mettre en pause')};
+const play=()=>{clearInterval(t);if(!off)t=setInterval(()=>show(i+1),6500)};
+q('#sp').onclick=()=>{show(i-1);play()};q('#sn').onclick=()=>{show(i+1);play()};d.forEach((e,j)=>e.onclick=()=>{show(j);play()});x.onclick=()=>{off=!off;lab();play()};lab();play()})();
+</script>
+</Base>

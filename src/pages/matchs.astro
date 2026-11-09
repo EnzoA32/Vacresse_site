@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { club } from '../lib/data.js';
+---
+<Base title="Matchs" description="Les prochains matchs de toutes les équipes du FC Vacresse.">
+<div class="wrap">
+<div class="sh in"><small>Matchday</small><h1>Tous les matchs</h1></div>
+<p class="muted">Les prochains matchs de toutes les catégories, fournis par Foot24.</p>
+<iframe src="https://www.foot24.be/fr/iframe/rfc-vacresse?per_page=999" title="Calendrier des matchs du RFC Vacresse" width="100%" height="900" style="border:0;max-width:100%;background:#fff" loading="lazy"></iframe>
+<p style="margin-top:18px"><a class="btn" href={club.rbfa} target="_blank" rel="noopener">Classements officiels RBFA</a></p>
+</div>
+</Base>

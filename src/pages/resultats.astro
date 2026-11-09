@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import { events, club, teamName, fmt } from '../lib/data.js';
+const done = events.filter(e => e.score);
+---
+<Base title="Résultats"><h1>Résultats</h1><div class="wrap">
+{done.length ? done.map(e => <div class="card"><span class="badge">{teamName(e.team)}</span> {e.title} : <b>{e.score}</b><br><span class="muted">{fmt(e.date)}</span></div>) : <p class="muted">Pas encore de résultat.</p>}
+<p class="muted">Les classements officiels sont publiés par la RBFA.</p><a class="btn" href={club.rbfa}>Voir sur RBFA</a></div></Base>
