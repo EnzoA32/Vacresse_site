@@ -1,0 +1,10 @@
+---
+const { p } = Astro.props;
+const ini = ((p.first || '')[0] || '') + ((p.last || '')[0] || '');
+const stats = p.matches != null || p.goals != null;
+---
+<article class="pl2"><div class="pl2-in">
+<div class="pl2-ph">{p.photo ? <img src={p.photo} alt={`${p.first} ${p.last}`} loading="lazy" /> : <span class="pl2-ini">{ini}</span>}{p.number != null && <b class="pl2-no">{p.number}</b>}</div>
+<div class="pl2-tx"><small>{p.first}</small><h4>{p.last}</h4>{p.position && <span class="lbl">{p.position}</span>}
+{stats && <div class="pl2-st">{p.matches != null && <span><b>{p.matches}</b> {p.matches > 1 ? 'matchs' : 'match'}</span>}{p.goals != null && <span><b>{p.goals}</b> {p.goals > 1 ? 'buts' : 'but'}</span>}</div>}</div>
+</div></article>

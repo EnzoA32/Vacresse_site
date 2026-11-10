@@ -101,7 +101,7 @@ const dayOrder = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', '
 export const teams = pick(rTeams.map((t) => ({
   name: t.name, slug: t.slug, staff: t.staff || '', rbfa: t.rbfa_url || '',
   trainings: rTrain.some((x) => x.team_id === t.id) ? rTrain.filter((x) => x.team_id === t.id).sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)).map((x) => ({ day: x.day, time: x.time || '', place: x.place || '' })) : demoTrain(t.slug),
-  players: rPlayers.some((p) => p.team_id === t.id) ? rPlayers.filter((p) => p.team_id === t.id).map((p) => ({ first: p.first_name, last: p.last_name, number: p.number, position: p.position || '', photo: p.photo_url || '' })) : (demoPlayers[t.slug] || [])
+  players: rPlayers.some((p) => p.team_id === t.id) ? rPlayers.filter((p) => p.team_id === t.id).map((p) => ({ first: p.first_name, last: p.last_name, number: p.number, position: p.position || '', photo: p.photo_url || '', matches: p.matches_played, goals: p.goals })) : (demoPlayers[t.slug] || [])
 })), localTeams);
 const byId = Object.fromEntries(rTeams.map((t) => [t.id, t.slug]));
 export const events = !rMatches.length ? demoMatches() : rMatches.filter((m) => byId[m.team_id]).map((m) => {

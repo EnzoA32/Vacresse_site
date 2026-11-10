@@ -191,3 +191,16 @@ footer{color:#cfcfd4}footer a:hover{color:#fff;text-decoration:underline}
 .past .evc{opacity:.7}.past .evc-img{height:110px;filter:grayscale(.6)}
 
 .tl{font-weight:700;color:var(--red);text-decoration:none;border-bottom:2px solid currentColor}
+
+/* ===== Cartes d'effectif : cadre à motif vectoriel (chevrons) + photo carrée ===== */
+.eh{font-size:1.8rem;text-transform:uppercase;margin:34px 0 14px}.eh:first-child{margin-top:0}
+.plist2{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:18px}
+.pl2{padding:12px;border-radius:18px;background:#E10613 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56'><rect width='56' height='56' fill='%23E10613'/><path d='M0 28 28 0 56 28v16L28 16 0 44z' fill='%238A0009'/></svg>");transition:transform .35s,box-shadow .35s}
+.pl2:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(180,0,12,.28)}
+.pl2-in{background:#fff;border-radius:11px;overflow:hidden}
+.pl2-ph{position:relative;aspect-ratio:1/1;background:var(--paper)}.pl2-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pl2-ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:900 4rem var(--display);color:var(--red)}
+.pl2-no{position:absolute;right:8px;bottom:8px;background:var(--red);color:#fff;font:900 1.5rem/1 var(--display);padding:6px 11px;border-radius:8px}
+.pl2-tx{padding:12px 14px 16px;text-align:center}.pl2-tx small{display:block;font:700 .7rem var(--text);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.pl2-tx h4{margin:2px 0 8px;font:900 1.75rem/1 var(--display);text-transform:uppercase}
+.pl2-st{display:flex;justify-content:center;gap:18px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font:700 .74rem var(--text);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.pl2-st b{color:var(--ink);font-size:.95rem}

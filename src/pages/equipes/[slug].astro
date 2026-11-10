@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PlayerCard from '../../components/PlayerCard.astro';
 import { teams, events, club, fmt } from '../../lib/data.js';
 export function getStaticPaths() { return teams.map((t) => ({ params: { slug: t.slug }, props: { t } })); }
 const { t } = Astro.props;
@@ -8,6 +9,9 @@ const mine = events.filter((e) => e.team === t.slug);
 const next = mine.filter((e) => new Date(e.date).getTime() >= now && e.status !== 'Annulé').sort((a, b) => a.date.localeCompare(b.date));
 const done = mine.filter((e) => e.score).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
 const rbfa = t.rbfa || club.rbfa;
+const STAFF = ['Entraîneur', 'Adjoint', 'Délégué', 'Staff'];
+const staff = t.players.filter((p) => STAFF.includes(p.position));
+const joueurs = t.players.filter((p) => !STAFF.includes(p.position));
 ---
 <Base title={t.name} description={`${t.name} : entraînements, prochain match et effectif.`}>
 <div class="wrap">
@@ -23,7 +27,11 @@ const rbfa = t.rbfa || club.rbfa;
 {done.length > 0 && <><h2>Derniers résultats</h2>{done.map((e) => <div class="card"><b>{e.title}</b> <span class="lbl">{e.score}</span></div>)}</>}
 <p><a class="btn" href={rbfa} target="_blank" rel="noopener">Voir le classement officiel sur RBFA</a></p><p><a class="tl" href="/matchs">Voir tous les matchs du club →</a></p>
 </section>
-<section class="tp" id="effectif" hidden>{t.players.length ? <div class="plist">{t.players.map((p) => <div class="pl">{p.photo ? <img src={p.photo} alt="" loading="lazy" /> : <span class="num">{p.number ?? '–'}</span>}<b>{p.first} {p.last}</b><span class="muted">{p.photo && p.number != null ? `n° ${p.number} · ` : ''}{p.position}</span></div>)}</div> : <p class="muted">Effectif à venir.</p>}</section>
+<section class="tp" id="effectif" hidden>
+{staff.length > 0 && <><h2 class="eh">Staff</h2><div class="plist2">{staff.map((p) => <PlayerCard p={p} />)}</div></>}
+{joueurs.length > 0 && <><h2 class="eh">Joueurs</h2><div class="plist2">{joueurs.map((p) => <PlayerCard p={p} />)}</div></>}
+{!t.players.length && <p class="muted">Effectif à venir.</p>}
+</section>
 </div>
 <script is:inline>
 const bs=[...document.querySelectorAll('.ftabs button')],ps=[...document.querySelectorAll('.tp')];

@@ -16,4 +16,7 @@ const on = () => '';
 <details class="burger" style="background:none;border:0;padding:0"><summary>Menu</summary><nav>{nav.map(([h,l]) => <a href={h}>{l}</a>)}<a class="shop" href={club.shop} target="_blank" rel="noopener">Boutique</a></nav></details></div></header>
 <slot />
 <footer><div class="wm" aria-hidden="true">FC VACRESSE</div><div class="wrap"><div><b style="color:#fff">{club.full}</b><br>{club.address}<br>{club.email}</div>
-<div>{nav.map(([h,l]) => <a href={h}>{l}</a>)}</div><div><a href="/matchs">Matchs</a><a href="/resultats">Résultats</a><a href="/faq">FAQ</a><a href={club.rbfa}>Classements RBFA</a><a href={club.shop}>Boutique</a></div></div></footer></body></html>
+<div>{nav.map(([h,l]) => <a href={h}>{l}</a>)}</div><div><a href="/matchs">Matchs</a><a href="/resultats">Résultats</a><a href="/faq">FAQ</a><a href={club.rbfa}>Classements RBFA</a><a href={club.shop}>Boutique</a></div></div></footer>
+<script is:inline>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.rv,.sh').forEach(e=>io.observe(e));
+</script></body></html>
