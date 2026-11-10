@@ -7,6 +7,6 @@ const map = 'https://www.google.com/maps/search/?api=1&query=' + encodeURICompon
 <div class="wrap">
 <div class="sh in"><small>Contact</small><h1>Écrivez-nous</h1></div>
 <div class="cgrid3">{contacts.map((c,i) => <a class="cc rv" style={`--d:${i*.1}s`} href={`mailto:${c.email}`}><small>✶ 0{i+1}</small><h3>{c.title}</h3><p>{c.text}</p><b>{c.email}</b><span class="btn">Écrire</span></a>)}</div>
-<div class="cc addr rv"><small>✶ Adresse</small><h3>Le stade</h3><p>{club.address}</p><a class="btn ghost" style="margin:0" href={map} target="_blank" rel="noopener">Itinéraire</a></div>
+<div class="cc addr rv"><small>✶ Adresse</small><h3>Le stade</h3><p>{club.address}</p><a class="btn ghost" style="margin:0" href={map} 
 </div>
 </Base>
