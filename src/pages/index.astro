@@ -23,7 +23,7 @@ const tick = '✶ FC VACRESSE ✶ ROYAL FOOTBALL CLUB ✶ SAISON ' + club.season
 <div class="tick" aria-hidden="true"><div class="tr">{[1,2,3,4].map(() => <span>{tick.repeat(4)}</span>)}</div></div>
 
 <section id="matchs" class="sec"><div class="wrap">
-<div class="sh rv"><small>Matchday</small><h2>Le prochain<br>rendez-vous</h2><p style="margin:18px 0 0"><a class="btn ghost" style="margin:0" href="/matchs">Tous les matchs</a></p></div>
+<div class="sh rv"><small>Matchday</small><h2>Le prochain<br>rendez-vous</h2></div>
 <div class="mgrid">
 <div class="tabs rv" id="tabs">{items.map((t,i) => <button type="button" class={i===0?'on':''} data-i={i}><b>{t.name}</b><small>{t.iso ? short(t.iso) : 'À venir'}</small></button>)}</div>
 <a class="ft gr rv" id="ft" href={`/equipes/${f0.slug}`}><div class="ghost" aria-hidden="true">{ghost.map(g => <span>{g}</span>)}</div><div class="ft-in">

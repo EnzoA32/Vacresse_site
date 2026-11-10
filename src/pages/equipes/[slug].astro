@@ -21,7 +21,7 @@ const rbfa = t.rbfa || club.rbfa;
 {next[0] ? <div class="card nm"><span class="lbl">{next[0].status}</span><h3>{next[0].title}</h3><p>{fmt(next[0].date)}{next[0].place && ` · ${next[0].place}`}</p></div> : <p class="muted">Prochain match à confirmer.</p>}
 {next.length > 1 && <>{next.slice(1, 4).map((e) => <div class="card"><b>{e.title}</b><br><span class="muted">{fmt(e.date)}</span></div>)}</>}
 {done.length > 0 && <><h2>Derniers résultats</h2>{done.map((e) => <div class="card"><b>{e.title}</b> <span class="lbl">{e.score}</span></div>)}</>}
-<p><a class="btn" href={rbfa} target="_blank" rel="noopener">Voir le classement officiel sur RBFA</a> <a class="btn ghost" href="/matchs">Tous les matchs</a></p>
+<p><a class="btn" href={rbfa} target="_blank" rel="noopener">Voir le classement officiel sur RBFA</a></p><p><a class="tl" href="/matchs">Voir tous les matchs du club →</a></p>
 </section>
 <section class="tp" id="effectif" hidden>{t.players.length ? <div class="plist">{t.players.map((p) => <div class="pl">{p.photo ? <img src={p.photo} alt="" loading="lazy" /> : <span class="num">{p.number ?? '–'}</span>}<b>{p.first} {p.last}</b><span class="muted">{p.photo && p.number != null ? `n° ${p.number} · ` : ''}{p.position}</span></div>)}</div> : <p class="muted">Effectif à venir.</p>}</section>
 </div>

@@ -189,3 +189,5 @@ footer{color:#cfcfd4}footer a:hover{color:#fff;text-decoration:underline}
 .evc-img{height:170px;background:linear-gradient(135deg,#E10613,#A8000B) center/cover;display:flex;align-items:flex-end}
 .evc-b{display:block;width:100%;background:#1c1c1f;color:#fff;text-align:center;padding:12px;font:700 .85rem var(--text);text-decoration:none;letter-spacing:.08em;transition:background .25s}a.evc-b:hover{background:var(--red)}
 .past .evc{opacity:.7}.past .evc-img{height:110px;filter:grayscale(.6)}
+
+.tl{font-weight:700;color:var(--red);text-decoration:none;border-bottom:2px solid currentColor}

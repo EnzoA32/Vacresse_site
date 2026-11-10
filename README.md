@@ -23,3 +23,6 @@ Le site est statique : il se reconstruit à chaque changement (environ 1 minute)
 `/admin` : connexion, puis onglets Événements, Matchs, Joueurs, Entraînements, Équipes, Personnes du club, Photos du club, Sponsors, Diaporama. Les photos sont redimensionnées avant envoi.
 Données sur les mineurs : prénom, nom, numéro, poste. Photo seulement avec l'accord des parents.
 Fichier local : `npm install` puis `npm run dev`.
+
+## Contenus d exemple
+Tant que la base est vide, le site affiche des contenus d exemple (événements, personnes, matchs, horaires, effectif de la première équipe). Mettre `PUBLIC_DEMO=false` dans Vercel pour tous les retirer avant la mise en ligne.
