@@ -3,7 +3,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists teams (id uuid primary key default gen_random_uuid(), name text not null, slug text not null unique, sort_order int default 0, staff text, rbfa_url text);
 create table if not exists trainings (id uuid primary key default gen_random_uuid(), team_id uuid not null references teams(id) on delete cascade, day text not null, time text, place text);
-create table if not exists players (id uuid primary key default gen_random_uuid(), team_id uuid not null references teams(id) on delete cascade, first_name text not null, last_name text not null, number int, position text, photo_url text, matches_played int, goals int);
+create table if not exists players (id uuid primary key default gen_random_uuid(), team_id uuid not null references teams(id) on delete cascade, first_name text not null, last_name text not null, number int, position text, photo_url text);
 create table if not exists matches (id uuid primary key default gen_random_uuid(), team_id uuid not null references teams(id) on delete cascade, opponent text not null, starts_at timestamptz not null, home boolean default true, place text, status text default 'À venir', score_us int, score_them int, opponent_logo_url text);
 create table if not exists events (id uuid primary key default gen_random_uuid(), title text not null, date date not null, time text, place text, description text, image_url text, link_url text, published boolean default true);
 create table if not exists people (id uuid primary key default gen_random_uuid(), grp text not null check (grp in ('president','coordinateur','comite','coach')), name text not null, role text, phone text, photo_url text, sort_order int default 0);
@@ -45,5 +45,3 @@ on conflict (slug) do nothing;
 -- À FAIRE : remplacer par l'adresse e-mail de l'administrateur (même adresse que son compte Supabase Auth)
 -- insert into staff_users (email) values ('votre.adresse@exemple.be');
 
--- Si la table players existe déjà (base créée avec une version précédente), exécuter une fois :
--- alter table players add column if not exists matches_played int, add column if not exists goals int;

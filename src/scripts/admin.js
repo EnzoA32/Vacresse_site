@@ -1,12 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
-const sb = createClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
+const SB_URL = import.meta.env.PUBLIC_SUPABASE_URL, SB_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+if (!SB_URL || !SB_KEY) {
+  const c = document.getElementById('cfg'); c.hidden = false;
+  c.innerHTML = '<b>Configuration manquante.</b> Ajoutez <code>PUBLIC_SUPABASE_URL</code> et <code>PUBLIC_SUPABASE_ANON_KEY</code> dans Vercel (Settings &gt; Environment Variables), puis <b>redéployez</b> : ces valeurs sont intégrées au site au moment de la construction.';
+  document.getElementById('login').hidden = true;
+  throw new Error('Supabase non configuré');
+}
+const sb = createClient(SB_URL, SB_KEY);
 const HOOK = import.meta.env.PUBLIC_DEPLOY_HOOK || '';
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 // type : t=texte, ta=zone de texte, d=date, dt=date+heure, n=nombre, b=oui/non, s=liste, r=équipe, i=image
 const T = {
   events: { label: 'Événements', order: ['date', false], cols: ['date', 'title', 'place'], f: [['title', 'Titre', 't', 1], ['date', 'Date', 'd', 1], ['time', 'Heure (ex. 19:00)', 't'], ['place', 'Lieu', 't'], ['description', 'Description', 'ta'], ['image_url', 'Photo', 'i'], ['link_url', "Lien « Plus d'infos »", 't'], ['published', 'Publié', 'b', 0, true]] },
   matches: { label: 'Matchs', team: 1, order: ['starts_at', false], cols: ['starts_at', 'team_id', 'opponent', 'status'], f: [['team_id', 'Équipe', 'r', 1], ['opponent', 'Adversaire', 't', 1], ['starts_at', 'Date et heure', 'dt', 1], ['home', 'À domicile', 'b', 0, true], ['place', 'Adresse / lieu', 't'], ['status', 'Statut', 's', 0, 'À venir', ['À venir', 'Terminé', 'Reporté', 'Annulé']], ['score_us', 'Score FC Vacresse', 'n'], ['score_them', 'Score adversaire', 'n'], ['opponent_logo_url', "Logo de l'adversaire", 'i']] },
-  players: { label: 'Joueurs', team: 1, order: ['last_name', true], cols: ['team_id', 'number', 'last_name', 'first_name'], f: [['team_id', 'Équipe', 'r', 1], ['first_name', 'Prénom', 't', 1], ['last_name', 'Nom', 't', 1], ['number', 'Numéro', 'n'], ['position', 'Poste ou fonction', 's', 0, '', ['', 'Gardien', 'Défenseur', 'Milieu', 'Attaquant', 'Entraîneur', 'Adjoint', 'Délégué', 'Staff']], ['matches_played', 'Matchs joués (facultatif)', 'n'], ['goals', 'Buts (facultatif)', 'n'], ['photo_url', 'Photo (uniquement avec accord des parents)', 'i']] },
+  players: { label: 'Joueurs', team: 1, order: ['last_name', true], cols: ['team_id', 'number', 'last_name', 'first_name'], f: [['team_id', 'Équipe', 'r', 1], ['first_name', 'Prénom', 't', 1], ['last_name', 'Nom', 't', 1], ['number', 'Numéro', 'n'], ['position', 'Poste ou fonction', 's', 0, '', ['', 'Gardien', 'Défenseur', 'Milieu', 'Attaquant', 'Entraîneur', 'Adjoint', 'Délégué', 'Staff']], ['photo_url', 'Photo (uniquement avec accord des parents)', 'i']] },
   trainings: { label: 'Entraînements', team: 1, order: ['day', true], cols: ['team_id', 'day', 'time', 'place'], f: [['team_id', 'Équipe', 'r', 1], ['day', 'Jour', 's', 1, 'Lundi', DAYS], ['time', 'Heure (ex. 18:30 – 20:00)', 't', 1], ['place', 'Lieu', 't']] },
   teams: { label: 'Équipes', order: ['sort_order', true], cols: ['sort_order', 'name', 'staff'], f: [['name', 'Nom', 't', 1], ['slug', 'Adresse (ex. u17-a)', 't', 1], ['sort_order', 'Ordre', 'n'], ['staff', 'Coach / délégué', 't'], ['rbfa_url', 'Lien du classement RBFA', 't']] },
   people: { label: 'Personnes du club', order: ['sort_order', true], cols: ['grp', 'name', 'role'], f: [['grp', 'Groupe', 's', 1, 'comite', ['president', 'coordinateur', 'comite', 'coach']], ['name', 'Nom', 't', 1], ['role', 'Fonction / équipe', 't'], ['phone', 'Téléphone (facultatif)', 't'], ['photo_url', 'Photo', 'i'], ['sort_order', 'Ordre', 'n']] },

@@ -10,12 +10,18 @@ button{font:inherit;cursor:pointer;border:1px solid #c9c9ce;background:#fff;bord
 main{max-width:1100px;margin:0 auto;padding:18px}#tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}#tabs button.on{background:#0e0e10;color:#fff}
 .tool{display:flex;gap:10px;margin-bottom:12px;align-items:center}.tool select{width:auto;margin:0}table{width:100%;border-collapse:collapse;background:#fff}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #e3e3e6}th{background:#fafafa;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}td.act{text-align:right;white-space:nowrap}.del{color:#b00020}
 dialog{border:0;border-radius:10px;padding:24px;width:min(560px,94vw);max-height:92vh;overflow:auto}dialog::backdrop{background:rgba(0,0,0,.5)}.bar2{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}.thumb{width:90px;height:60px;object-fit:cover;display:block;margin:6px 0}
+#cfg{max-width:640px;margin:60px auto;background:#fff;border-left:6px solid #b00020;padding:20px;line-height:1.6}code{background:#f3f3f4;padding:2px 6px;border-radius:4px}
 #msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:8px;color:#fff;z-index:9}#msg.ok{background:#0a7a3d}#msg.err{background:#b00020}#lerr{color:#b00020}
 </style></head>
 <body>
+<div id="cfg" hidden></div>
 <header><b>FC VACRESSE · ADMINISTRATION</b><span id="who"></span><button id="pub" hidden>Mettre à jour le site</button><button id="out">Déconnexion</button></header>
-<section id="login" hidden><h2>Connexion</h2><form id="lf"><label>E-mail<input id="em" type="email" required></label><label>Mot de passe<input id="pw" type="password" required></label><button class="pri" type="submit">Se connecter</button><p id="lerr"></p></form></section>
+<section id="login"><h2>Connexion</h2><form id="lf"><label>E-mail<input id="em" type="email" required></label><label>Mot de passe<input id="pw" type="password" required></label><button class="pri" type="submit">Se connecter</button><p id="lerr"></p></form></section>
 <main id="app" hidden><div id="tabs"></div><div class="tool"><button id="add">+ Ajouter</button><select id="filter" hidden></select></div><table><thead><tr id="head"></tr></thead><tbody id="rows"></tbody></table></main>
 <dialog id="dlg"></dialog><div id="msg" hidden></div>
+<script is:inline>
+const showErr=(m)=>{const c=document.getElementById("cfg");c.hidden=false;if(!c.innerHTML)c.textContent="Erreur : "+m};
+addEventListener("error",e=>showErr(e.message));addEventListener("unhandledrejection",e=>showErr(e.reason&&e.reason.message||e.reason));
+</script>
 <script>import '../../scripts/admin.js';</script>
 </body></html>

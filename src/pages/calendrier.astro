@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { events, teams, teamName, fmt } from '../lib/data.js';
+const list = [...events].sort((a,b)=>a.date.localeCompare(b.date));
+---
+<Base title="Calendrier" description="Entraînements et matchs de toutes les équipes."><h1>Calendrier</h1><div class="wrap">
+<label>Équipe<select id="t"><option value="">Toutes</option>{teams.map(t => <option value={t.slug}>{t.name}</option>)}</select></label>
+<label>Type<select id="k"><option value="">Matchs et entraînements</option><option value="match">Matchs</option><option value="entrainement">Entraînements</option></select></label>
+{list.map(e => <div class="card ev" data-t={e.team} data-k={e.type}><span class="badge">{teamName(e.team)}</span> <b>{e.title}</b> <span class="muted">({e.type})</span><br>{fmt(e.date)} · {e.place}</div>)}
+<script is:inline>
+const f=()=>{const t=document.getElementById('t').value,k=document.getElementById('k').value;document.querySelectorAll('.ev').forEach(e=>e.style.display=(!t||e.dataset.t===t)&&(!k||e.dataset.k===k)?'':'none')};
+document.getElementById('t').onchange=document.getElementById('k').onchange=f;
+</script></div></Base>

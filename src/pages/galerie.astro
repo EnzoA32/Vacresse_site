@@ -1,0 +1,6 @@
+---
+import Base from '../layouts/Base.astro';
+import { albums, teamName } from '../lib/data.js';
+---
+<Base title="Galerie" description="Photos du club par saison, équipe et événement."><h1>Galerie</h1><div class="wrap">
+<div class="grid">{albums.map(a => <div class="card"><b>{a.title}</b><br><span class="badge">{teamName(a.team)}</span><p class="muted">{a.photos.length} photo(s)</p></div>)}</div></div></Base>
