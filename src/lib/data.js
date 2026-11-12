@@ -7,8 +7,8 @@ const env = (k) =>
   (typeof process !== 'undefined' && process.env && process.env[k]) ||
   '';
 
-const SB = env('PUBLIC_SUPABASE_URL');
-const KEY = env('PUBLIC_SUPABASE_ANON_KEY');
+const SB = env('https://ybdvpfmvatwswzfweltv.supabase.co');
+const KEY = env('sb_publishable_H7w-ceweyOXZWRby978vbA_DEQsThX-');
 
 const get = async (table, q = 'select=*') => {
   if (!SB) return [];
