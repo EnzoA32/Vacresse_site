@@ -114,3 +114,5 @@ export const people = pick(rPeople.map((p) => ({ grp: p.grp, name: p.name, role:
 export const clubPhotos = pick(rPhotos.map((p) => ({ title: p.title || '', category: p.category || '', img: p.image_url })), localPhotos);
 export const slides = pick(rSlides.map((s) => ({ img: s.image_url, title: s.title, text: s.text || '', link: s.link || '/', cta: s.cta || 'Découvrir' })), localSlides);
 export const sponsors = pick(rSponsors.map((s) => ({ name: s.name, url: s.url || '', img: s.logo_url || '' })), localSponsors);
+export const albums = [];
+export const teamName = "FC Vacresse";
